@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ia.algo.recherche"},{"l":"ia.framework.common"},{"l":"ia.framework.recherche"},{"l":"ia.problemes"}];updateSearchResults();
