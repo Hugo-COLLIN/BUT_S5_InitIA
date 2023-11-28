@@ -25,16 +25,16 @@ public class DFS extends TreeSearch {
     @Override
     public boolean solve() {
         // Créer une file d'attente pour les nœuds à visiter
-        Stack<SearchNode> stack = new Stack<>();
+        Stack<SearchNode> frontiere = new Stack<>();
 
         // Ajouter le nœud initial à la file d'attente
         SearchNode node = SearchNode.makeRootSearchNode(intial_state);
-        stack.add(node);
+        frontiere.add(node);
 
         // Tant qu'il y a des nœuds à visiter
-        while (!stack.isEmpty()) {
+        while (!frontiere.isEmpty()) {
             // Retirer le prochain nœud de la file d'attente
-            node = stack.pop();
+            node = frontiere.pop();
             State state = node.getState();
 
             // Si cet état est l'état but, terminer
@@ -47,7 +47,7 @@ public class DFS extends TreeSearch {
             ArrayList<Action> actions = problem.getActions(state);
             for (Action a : actions) {
                 SearchNode childNode = SearchNode.makeChildSearchNode(problem, node, a);
-                stack.add(childNode);
+                frontiere.add(childNode);
             }
         }
 
