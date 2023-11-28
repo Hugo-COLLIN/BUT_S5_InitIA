@@ -12,7 +12,13 @@ import ia.framework.common.BaseProblem;
  *
  */
 
-public class SearchNode {
+public class SearchNode implements Comparable<SearchNode> {
+
+    @Override
+    public int compareTo(SearchNode other) {
+        return Double.compare(this.getCost(), other.getCost());
+    }
+
     /**
      * Un compteur de noeud créés
      */
