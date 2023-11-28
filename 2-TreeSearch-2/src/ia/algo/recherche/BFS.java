@@ -25,16 +25,16 @@ public class BFS extends TreeSearch {
     @Override
     public boolean solve() {
         // Créer une file d'attente pour les nœuds à visiter
-        Queue<SearchNode> queue = new LinkedList<>();
+        this.frontier = new LinkedList<>();
 
         // Ajouter le nœud initial à la file d'attente
         SearchNode node = SearchNode.makeRootSearchNode(intial_state);
-        queue.add(node);
+        this.frontier.add(node);
 
         // Tant qu'il y a des nœuds à visiter
-        while (!queue.isEmpty()) {
+        while (!this.frontier.isEmpty()) {
             // Retirer le prochain nœud de la file d'attente
-            node = queue.poll();
+            node = this.frontier.poll();
             State state = node.getState();
 
             // Si cet état est l'état but, terminer
@@ -47,7 +47,7 @@ public class BFS extends TreeSearch {
             ArrayList<Action> actions = problem.getActions(state);
             for (Action a : actions) {
                 SearchNode childNode = SearchNode.makeChildSearchNode(problem, node, a);
-                queue.add(childNode);
+                this.frontier.add(childNode);
             }
         }
 
