@@ -5,6 +5,7 @@ import java.util.Random;
 
 import ia.framework.common.BaseProblem;
 import ia.framework.common.Action;
+import ia.framework.common.Pair;
 import ia.framework.common.State;
 
 /**
@@ -60,6 +61,48 @@ public abstract class Game extends BaseProblem {
         return null; 
     }
 
-   
-    
+
+    public Action getMinMaxMove(GameState state) {
+        if (endOfGame(state)) {
+            return null;
+        }
+        Pair<Integer, Action> result = max(state);
+        return result.second;
+    }
+
+    private Pair<Integer, Action> max(GameState state) {
+        if (endOfGame(state)) {
+            return new Pair<>((int)state.getGameValue(), null);
+        }
+        int bestValue = Integer.MIN_VALUE;
+        Action bestAction = null;
+        for (Action action : getActions(state)) {
+            GameState nextState = (GameState) doAction(state, action);
+            int value = min(nextState).first;
+            if (value > bestValue) {
+                bestValue = value;
+                bestAction = action;
+            }
+        }
+        return new Pair<>(bestValue, bestAction);
+    }
+
+    private Pair<Integer, Action> min(GameState state) {
+        if (endOfGame(state)) {
+            return new Pair<>((int)state.getGameValue(), null);
+        }
+        int bestValue = Integer.MAX_VALUE;
+        Action bestAction = null;
+        for (Action action : getActions(state)) {
+            GameState nextState = (GameState) doAction(state, action);
+            int value = max(nextState).first;
+            if (value < bestValue) {
+                bestValue = value;
+                bestAction = action;
+            }
+        }
+        return new Pair<>(bestValue, bestAction);
+    }
+
+
 }

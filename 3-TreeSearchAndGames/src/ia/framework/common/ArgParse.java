@@ -205,8 +205,8 @@ public class ArgParse {
             return new RandomPlayer(game,p1);
         case "hum":
             return new HumanPlayer(game, p1);
-            //case "minmax":
-            //return new MinMaxPlayer(game, p1);
+        case "minmax":
+            return new MinMaxPlayer(game, p1);
         default :
             System.out.println("Joueur inconnu");
             usage();
