@@ -1,23 +1,23 @@
 package ia.algo.recherche;
 
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Comparator;
-
 import ia.framework.common.Action;
 import ia.framework.common.State;
+import ia.framework.recherche.HasHeuristic;
 import ia.framework.recherche.SearchNode;
 import ia.framework.recherche.SearchProblem;
 import ia.framework.recherche.TreeSearch;
 
-public class UCS extends TreeSearch {
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+public class GFS extends TreeSearch {
     /**
      * Crée un algorithme de recherche
      *
      * @param problem Le problème à résoudre
      * @param initialState L'état initial
      */
-    public UCS(SearchProblem problem, State initialState) {
+    public GFS(SearchProblem problem, State initialState) {
         super(problem, initialState);
         Comparator<SearchNode> comparator = Comparator.comparing(SearchNode::getCost);
         this.frontier = new PriorityQueue<>(comparator);
@@ -25,7 +25,7 @@ public class UCS extends TreeSearch {
 
     @Override
     public boolean solve() {
-        PriorityQueue<SearchNode> frontier = new PriorityQueue<>(Comparator.comparingDouble(SearchNode::getCost));
+        PriorityQueue<SearchNode> frontier = new PriorityQueue<>(Comparator.comparingDouble(node -> ((HasHeuristic) node.getState()).getHeuristic()));
         frontier.add(SearchNode.makeRootSearchNode(intial_state));
         while (!frontier.isEmpty()) {
             SearchNode node = frontier.poll();

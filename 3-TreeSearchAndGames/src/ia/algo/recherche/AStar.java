@@ -1,31 +1,24 @@
 package ia.algo.recherche;
 
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Comparator;
-
 import ia.framework.common.Action;
 import ia.framework.common.State;
+import ia.framework.recherche.HasHeuristic;
 import ia.framework.recherche.SearchNode;
 import ia.framework.recherche.SearchProblem;
 import ia.framework.recherche.TreeSearch;
 
-public class UCS extends TreeSearch {
-    /**
-     * Crée un algorithme de recherche
-     *
-     * @param problem Le problème à résoudre
-     * @param initialState L'état initial
-     */
-    public UCS(SearchProblem problem, State initialState) {
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+public class AStar extends TreeSearch {
+
+    public AStar(SearchProblem problem, State initialState) {
         super(problem, initialState);
-        Comparator<SearchNode> comparator = Comparator.comparing(SearchNode::getCost);
-        this.frontier = new PriorityQueue<>(comparator);
     }
 
     @Override
     public boolean solve() {
-        PriorityQueue<SearchNode> frontier = new PriorityQueue<>(Comparator.comparingDouble(SearchNode::getCost));
+        PriorityQueue<SearchNode> frontier = new PriorityQueue<>(Comparator.comparingDouble(node -> ((HasHeuristic) node.getState()).getHeuristic() + node.getCost()));
         frontier.add(SearchNode.makeRootSearchNode(intial_state));
         while (!frontier.isEmpty()) {
             SearchNode node = frontier.poll();
@@ -38,6 +31,9 @@ public class UCS extends TreeSearch {
                 SearchNode child = SearchNode.makeChildSearchNode(problem, node, action);
                 if (!explored.contains(child.getState()) && !frontier.contains(child)) {
                     frontier.add(child);
+                } else if (frontier.contains(child) && child.getCost() < node.getCost()) {
+                    frontier.remove(node);
+                    frontier.add(child);
                 }
             }
         }
@@ -45,3 +41,4 @@ public class UCS extends TreeSearch {
     }
 
 }
+
